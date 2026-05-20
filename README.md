@@ -6,7 +6,7 @@ Priel Tiran
 
 ## AI Usage Disclosure
 
-AI tools were used during the development of this project for assistance with code structure, debugging, documentation, and improving the explanation of the simulation.
+AI tools were used during the development of this project using Chat GPT for assistance with code structure, debugging, documentation, and improving the explanation of the simulation.
 
 The final implementation was reviewed, tested, and understood by the author.  
 All design choices, simulation logic, data structures, and results were checked and explained by the author.
