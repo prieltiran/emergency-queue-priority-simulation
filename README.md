@@ -1,135 +1,323 @@
-Dynamic Priority Queue Simulation for Emergency Room
-Project Overview
-This project simulates an emergency-room queue system and compares three queue management strategies.
-The goal is to show how choosing a data structure and a priority model changes the behavior of a real system.
-In an emergency room, treating patients only by arrival order is not always reasonable. A patient with a serious case should usually be treated before a patient with a minor issue, even if the minor case arrived earlier.
-The project is implemented in Python and uses only built-in Python libraries.
----
-What the Simulation Does
-The program randomly generates patients over time. Each patient has:
-patient ID
-arrival time
-urgency level from 1 to 10
-case type
-service time
-The same generated patients are then tested using three different queue strategies. This makes the comparison fair because all strategies receive the same input.
----
-Case Types
-The simulation includes several case types:
-Minor injury
-Regular check
-High fever
-Chest pain
-Breathing issue
-Each case type has:
-a priority bonus used in the dynamic priority formula
-a minimum and maximum treatment time
-For example, `Breathing issue` receives a higher priority bonus than `Minor injury`, because it represents a more serious case.
----
-Strategies Compared
-1. FIFO Queue
-FIFO means First In, First Out.
-Patients are treated according to arrival order only.
-This is implemented using Python's `deque`.
-Main operations:
-`append()` adds a patient to the end of the queue
-`popleft()` removes the patient from the front of the queue
-This strategy is simple, but it does not consider urgency.
----
-2. Static Priority Queue
-Patients are treated according to their urgency level.
-A patient with urgency 10 will be treated before a patient with urgency 3.
-This is implemented using Python's `heapq`.
-Python's `heapq` is a min-heap, so the program inserts negative priority values. This allows the highest urgency patient to be selected first.
-This strategy helps urgent patients, but it can cause starvation: less urgent patients may wait too long if urgent cases keep arriving.
----
-3. Dynamic Priority Queue
-Dynamic Priority Queue uses a priority score that changes over time.
-The priority score is calculated as:
-```text
-score = 10 * urgency + 3 * case_type_bonus + 0.8 * waiting_time
-```
-Meaning:
-`urgency` is the most important factor
-`case_type_bonus` gives extra weight to more serious medical cases
-`waiting_time` increases the priority of patients who have waited longer
-This strategy tries to balance two goals:
-treating urgent patients early
-reducing starvation and long waiting times for less urgent patients
----
-Why Dynamic Priority Is Needed
-A static priority queue is useful because it protects urgent patients.
-However, it may be unfair to lower-priority patients. If new urgent patients keep arriving, a less urgent patient can wait for a very long time.
-The dynamic priority strategy solves part of this problem by increasing a patient's priority as their waiting time grows.
-This means the system is not based only on the original urgency level. It also reacts to what happens during the simulation.
----
-Output Files
-When running the program, it creates an `output` folder with these files:
-`patients.csv`  
-The generated patients used as input.
-`treatment_order.csv`  
-The treatment order for each strategy.
-`simulation_results.csv`  
-Main statistical comparison between the strategies.
-`waiting_distribution.csv`  
-Distribution of waiting times by ranges.
-`arrival_timeline.csv`  
-Number of patients arriving in each time range.
-`results_summary.txt`  
-A readable text summary of all results.
-`results_chart.html`  
-Main result chart that can be opened in a browser.
-`arrival_timeline.html`  
-Visual chart of the patient arrival process.
-`waiting_distribution.html`  
-Visual chart of the waiting time distribution.
----
-Metrics Compared
-The simulation compares the strategies using:
-average waiting time
-average waiting time of urgent patients
-maximum waiting time
-number of urgent patients who waited more than 15 time units
-distribution of waiting times
-patient arrival timeline
-The distribution is important because averages alone can hide important behavior. For example, two strategies can have similar average waiting time but very different numbers of patients who wait extremely long.
----
-Example Result
-Example result using the default settings:
-```text
-Strategy                     Avg wait     Urgent avg    Max wait    Urgent > 15
-FIFO                            94.75          98.48      191.00             23
-Static Priority Queue           98.94           7.60      251.00              5
-Dynamic Priority Queue          98.69          17.64      213.00             10
-```
----
-Result Interpretation
-FIFO is simple, but it performs poorly for urgent patients.
-Static Priority Queue greatly improves urgent patient waiting time, but it can create long waits for less urgent patients.
-Dynamic Priority Queue does not try to win every metric. Its goal is to balance urgency and fairness. It keeps urgent patients much better than FIFO, while reducing the maximum waiting time compared to the static priority strategy.
----
-How to Run
-Run the program:
-```bash
-python emergency_queue_simulation.py
-```
-Optional run with custom values:
-```bash
-python emergency_queue_simulation.py --patients 80 --seed 42 --output-dir output --open-chart
-```
-The `--open-chart` flag opens the main HTML chart automatically in the browser.
-No external Python packages are required.
----
-Why This Project Fits Data Structures
-This project demonstrates:
-regular queue behavior
-priority queue behavior
-heap usage
-dynamic priority calculation
-simulation of a real-world system
-comparison between data structure choices
-analysis of performance and fairness
-The main idea is that a data structure is not only an implementation detail. It changes how the system behaves.
----
-Author
+# Dynamic Priority Queue Simulation for Emergency Room
+
+## Author
+
 Priel Tiran
+
+## AI Usage Disclosure
+
+AI tools were used during the development of this project for assistance with code structure, debugging, documentation, and improving the explanation of the simulation.
+
+The final implementation was reviewed, tested, and understood by the author.  
+All design choices, simulation logic, data structures, and results were checked and explained by the author.
+
+---
+
+## Project Overview
+
+This project simulates an emergency-room queue system and compares different queue management strategies.
+
+The goal of the project is to demonstrate how the choice of data structure affects the behavior and performance of a real system.
+
+In an emergency room, treating patients only by arrival order is not always reasonable. A patient with high urgency should usually be treated before a patient with a minor issue, even if the minor case arrived earlier.
+
+For this reason, the project compares a regular FIFO queue with two priority-based queue strategies.
+
+---
+
+## Simulation Model
+
+The simulation generates patients randomly over time.
+
+Each patient has:
+
+- Patient ID
+- Arrival time
+- Urgency level
+- Case type
+- Service time
+
+The arrival process is dynamic. Patients do not all arrive at the beginning of the simulation. Instead, they enter the system at different times, which makes the simulation closer to a real queue system.
+
+The case types used in the simulation include:
+
+- Minor injury
+- Regular check
+- High fever
+- Chest pain
+- Breathing issue
+
+Each case type has a different priority bonus and a different service-time range.
+
+For example, a breathing issue receives a higher case-type bonus than a minor injury because it represents a more urgent medical condition.
+
+---
+
+## Queue Strategies Compared
+
+The simulation compares three queue management strategies.
+
+### 1. FIFO Queue
+
+FIFO means First In, First Out.
+
+In this strategy, patients are treated only according to arrival order.
+
+The first patient who arrives is the first patient treated.
+
+This strategy is simple and fair in terms of arrival time, but it does not consider medical urgency.
+
+Implementation:
+
+- Python data structure: `collections.deque`
+- New patients are inserted using `append()`
+- The next patient is selected using `popleft()`
+
+---
+
+### 2. Static Priority Queue
+
+In this strategy, patients are treated according to their urgency level.
+
+Patients with higher urgency are selected before patients with lower urgency.
+
+This strategy improves the treatment of urgent patients, but it may cause less urgent patients to wait for a very long time.
+
+This problem is known as starvation.
+
+Implementation:
+
+- Python data structure: `heapq`
+- Priority is based mainly on urgency level
+- Since Python `heapq` is a min-heap, negative priority values are used so that higher-priority patients are selected first
+
+---
+
+### 3. Dynamic Priority Queue
+
+In this strategy, the priority is not based only on urgency.
+
+The priority score is recalculated over time using:
+
+- Urgency level
+- Case type bonus
+- Waiting time
+
+The purpose of this strategy is to balance between medical urgency and fairness.
+
+Static priority is very good for urgent patients, but it can push low-priority patients backward for too long.  
+Dynamic priority solves this by allowing waiting time to gradually increase a patient’s priority.
+
+---
+
+## Dynamic Priority Formula
+
+The dynamic priority score is calculated as:
+
+score = 10 * urgency + 3 * case_type_bonus + 0.3 * waiting_time
+
+Where:
+
+- `urgency` is the medical urgency level of the patient
+- `case_type_bonus` gives extra weight to more serious case types
+- `waiting_time` increases the priority of patients who have waited longer
+
+The urgency level receives the largest weight because medical urgency should remain the most important factor.
+
+Waiting time receives a smaller weight because it should improve fairness without completely overriding medical urgency.
+
+---
+
+## Why Dynamic Priority Is Needed
+
+A static priority queue can strongly reduce the waiting time of urgent patients.
+
+However, it may create a fairness problem: patients with lower urgency can wait for a very long time if new urgent patients keep arriving.
+
+The dynamic priority queue was added to address this problem.
+
+It keeps urgent patients near the front of the queue, but also increases the priority of patients who have waited for a long time.
+
+This creates a trade-off between:
+
+- Treating urgent patients quickly
+- Reducing extreme waiting times
+- Making the queue more fair
+
+---
+
+## Data Structures Used
+
+The project uses the following data structures:
+
+### Queue
+
+Used for the FIFO strategy.
+
+Implemented with:
+
+`collections.deque`
+
+This allows efficient insertion at the end of the queue and removal from the front.
+
+### Priority Queue
+
+Used for the static and dynamic priority strategies.
+
+Implemented with:
+
+`heapq`
+
+A heap allows efficient selection of the next highest-priority patient.
+
+Because Python’s `heapq` is a min-heap, the code inserts negative priority scores in order to select the highest-priority patient first.
+
+### Dictionaries
+
+Used to store case-type information, such as:
+
+- Priority bonus
+- Minimum service time
+- Maximum service time
+
+---
+
+## Output Files
+
+After running the program, an `output` folder is created.
+
+The program generates the following files:
+
+### Main CSV Files
+
+- `patients.csv`  
+  Contains the randomly generated patients.
+
+- `treatment_order.csv`  
+  Shows the order in which patients were treated under each strategy.
+
+- `simulation_results.csv`  
+  Contains the main statistical comparison between the strategies.
+
+- `waiting_distribution.csv`  
+  Contains the distribution of waiting times by time ranges.
+
+- `arrival_timeline.csv`  
+  Shows how many patients arrived in each time interval.
+
+### Summary File
+
+- `results_summary.txt`  
+  A readable text summary of the simulation results.
+
+### HTML Visualization Files
+
+- `results_chart.html`  
+  Shows the main comparison between the strategies.
+
+- `arrival_timeline.html`  
+  Shows the patient arrival process over time.
+
+- `waiting_distribution.html`  
+  Shows the distribution of waiting times for each strategy.
+
+The HTML files can be opened directly in a browser.
+
+No external Python libraries are required.
+
+---
+
+## Metrics Compared
+
+The strategies are compared using several metrics:
+
+- Average waiting time
+- Average waiting time of urgent patients
+- Maximum waiting time
+- Number of urgent patients who waited more than 15 time units
+- Distribution of waiting times
+- Patient arrival timeline
+
+The distribution analysis is important because averages alone can hide extreme cases.
+
+For example, two strategies may have similar average waiting time, but one strategy may still cause many patients to wait for a very long time.
+
+---
+
+## Example Result
+
+Example output from one simulation run:
+
+Strategy                  Avg wait     Urgent avg     Max wait     Urgent > 15
+FIFO                        94.75          98.48       191.00              23
+Static Priority Queue       98.94           7.60       251.00               5
+Dynamic Priority Queue      98.69          17.64       213.00              10
+
+---
+
+## Result Interpretation
+
+The FIFO strategy is simple, but it performs poorly for urgent patients.
+
+In FIFO, urgent patients may wait a long time because the queue only follows arrival order.
+
+The Static Priority Queue greatly improves the waiting time of urgent patients. However, it may create starvation for less urgent patients, which is reflected in a high maximum waiting time.
+
+The Dynamic Priority Queue creates a more balanced result. It does not treat urgent patients as aggressively as the static priority method, but it reduces the maximum waiting time and improves fairness by considering waiting time.
+
+The main conclusion is that the choice of data structure and priority model changes the behavior of the system.
+
+---
+
+## How to Run
+
+Make sure Python is installed.
+
+Run the following command:
+
+python emergency_queue_simulation.py
+
+The program uses only built-in Python libraries.
+
+No installation of external packages is needed.
+
+After running the program, open the generated `output` folder and view the HTML files in a browser.
+
+---
+
+## Project Files
+
+Recommended repository structure:
+
+emergency-queue-priority-simulation/
+│
+├── emergency_queue_simulation.py
+├── README.md
+│
+└── sample_output/
+    ├── results_chart.html
+    ├── arrival_timeline.html
+    ├── waiting_distribution.html
+    ├── simulation_results.csv
+    ├── waiting_distribution.csv
+    └── arrival_timeline.csv
+
+The `sample_output` folder is optional, but it is useful for showing example results without requiring the user to run the program first.
+
+---
+
+## Why This Project Fits a Data Structures Course
+
+This project fits a Data Structures course because it demonstrates:
+
+- FIFO queue behavior
+- Priority queue behavior
+- Heap usage
+- Dynamic priority calculation
+- Simulation of a real-world system
+- Comparison between different data structure choices
+- Analysis of performance and fairness
+- The effect of algorithmic design on real system behavior
+
+The project shows that data structures are not only theoretical tools.  
+They directly affect how a system behaves in practice.
