@@ -1,0 +1,4 @@
+strategy,avg_wait,urgent_avg_wait,max_wait,urgent_over_15
+FIFO,94.75,98.48,191,23
+Static Priority Queue,98.94,7.6,251,5
+Dynamic Priority Queue,98.69,17.64,213,10

@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Waiting Time Distribution</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f7f7f7;
+      color: #222;
+    }
+    h1 { margin-bottom: 8px; }
+    h2 { margin-bottom: 10px; }
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      max-width: 760px;
+    }
+    .bar {
+      height: 22px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    p { line-height: 1.35; }
+  </style>
+</head>
+<body>
+  <h1>Waiting Time Distribution</h1><p>This chart shows how many patients fall into each waiting-time range.</p><section class='card'><h2>Waiting time: 0-20</h2><p>FIFO: <b>8</b></p><div class="bar" style="width:138px;background:#4C78A8;"></div><p>Static Priority Queue: <b>27</b></p><div class="bar" style="width:468px;background:#F58518;"></div><p>Dynamic Priority Queue: <b>21</b></p><div class="bar" style="width:364px;background:#54A24B;"></div></section><section class='card'><h2>Waiting time: 21-50</h2><p>FIFO: <b>14</b></p><div class="bar" style="width:242px;background:#4C78A8;"></div><p>Static Priority Queue: <b>9</b></p><div class="bar" style="width:156px;background:#F58518;"></div><p>Dynamic Priority Queue: <b>7</b></p><div class="bar" style="width:121px;background:#54A24B;"></div></section><section class='card'><h2>Waiting time: 51-100</h2><p>FIFO: <b>20</b></p><div class="bar" style="width:346px;background:#4C78A8;"></div><p>Static Priority Queue: <b>6</b></p><div class="bar" style="width:104px;background:#F58518;"></div><p>Dynamic Priority Queue: <b>10</b></p><div class="bar" style="width:173px;background:#54A24B;"></div></section><section class='card'><h2>Waiting time: 101-150</h2><p>FIFO: <b>22</b></p><div class="bar" style="width:381px;background:#4C78A8;"></div><p>Static Priority Queue: <b>8</b></p><div class="bar" style="width:138px;background:#F58518;"></div><p>Dynamic Priority Queue: <b>17</b></p><div class="bar" style="width:294px;background:#54A24B;"></div></section><section class='card'><h2>Waiting time: 151+</h2><p>FIFO: <b>16</b></p><div class="bar" style="width:277px;background:#4C78A8;"></div><p>Static Priority Queue: <b>30</b></p><div class="bar" style="width:520px;background:#F58518;"></div><p>Dynamic Priority Queue: <b>25</b></p><div class="bar" style="width:433px;background:#54A24B;"></div></section>
+</body>
+</html>

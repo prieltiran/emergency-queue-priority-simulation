@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Emergency Queue Simulation - Main Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f7f7f7;
+      color: #222;
+    }
+    h1 { margin-bottom: 8px; }
+    h2 { margin-bottom: 10px; }
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      max-width: 760px;
+    }
+    .bar {
+      height: 22px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    p { line-height: 1.35; }
+  </style>
+</head>
+<body>
+  
+        <h1>Emergency Queue Simulation - Main Results</h1>
+        <p>This chart compares FIFO, Static Priority Queue, and Dynamic Priority Queue.</p>
+        <p>Blue bars show average waiting time for all patients. Orange bars show average waiting time for urgent patients.</p>
+        
+        <section class="card">
+          <h2>FIFO</h2>
+          <p>Average waiting time: <b>94.75</b></p>
+          <div class="bar" style="width:497px;background:#4C78A8;"></div>
+          <p>Urgent average waiting time: <b>98.48</b></p>
+          <div class="bar" style="width:517px;background:#F58518;"></div>
+          <p>Maximum wait: <b>191.00</b> | Urgent patients above 15: <b>23</b></p>
+        </section>
+        
+        <section class="card">
+          <h2>Static Priority Queue</h2>
+          <p>Average waiting time: <b>98.94</b></p>
+          <div class="bar" style="width:520px;background:#4C78A8;"></div>
+          <p>Urgent average waiting time: <b>7.60</b></p>
+          <div class="bar" style="width:39px;background:#F58518;"></div>
+          <p>Maximum wait: <b>251.00</b> | Urgent patients above 15: <b>5</b></p>
+        </section>
+        
+        <section class="card">
+          <h2>Dynamic Priority Queue</h2>
+          <p>Average waiting time: <b>98.69</b></p>
+          <div class="bar" style="width:518px;background:#4C78A8;"></div>
+          <p>Urgent average waiting time: <b>17.64</b></p>
+          <div class="bar" style="width:92px;background:#F58518;"></div>
+          <p>Maximum wait: <b>213.00</b> | Urgent patients above 15: <b>10</b></p>
+        </section>
+        
+        
+</body>
+</html>

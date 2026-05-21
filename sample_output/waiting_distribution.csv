@@ -1,0 +1,6 @@
+range,FIFO,Static Priority Queue,Dynamic Priority Queue
+0-20,8,27,21
+21-50,14,9,7
+51-100,20,6,10
+101-150,22,8,17
+151+,16,30,25

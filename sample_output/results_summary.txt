@@ -1,0 +1,42 @@
+Emergency Queue Simulation Results
+==========================================
+
+Main metrics:
+
+FIFO
+Average waiting time: 94.75
+Urgent average waiting time: 98.48
+Maximum waiting time: 191.00
+Urgent patients waiting more than 15 time units: 23
+
+Static Priority Queue
+Average waiting time: 98.94
+Urgent average waiting time: 7.60
+Maximum waiting time: 251.00
+Urgent patients waiting more than 15 time units: 5
+
+Dynamic Priority Queue
+Average waiting time: 98.69
+Urgent average waiting time: 17.64
+Maximum waiting time: 213.00
+Urgent patients waiting more than 15 time units: 10
+
+Waiting time distribution:
+
+FIFO: {'0-20': 8, '21-50': 14, '51-100': 20, '101-150': 22, '151+': 16}
+
+Static Priority Queue: {'0-20': 27, '21-50': 9, '51-100': 6, '101-150': 8, '151+': 30}
+
+Dynamic Priority Queue: {'0-20': 21, '21-50': 7, '51-100': 10, '101-150': 17, '151+': 25}
+
+Arrival timeline:
+Time 0-9: total=11, urgent=3
+Time 10-19: total=7, urgent=2
+Time 20-29: total=5, urgent=2
+Time 30-39: total=5, urgent=1
+Time 40-49: total=10, urgent=3
+Time 50-59: total=8, urgent=2
+Time 60-69: total=11, urgent=3
+Time 70-79: total=4, urgent=3
+Time 80-89: total=10, urgent=4
+Time 90-99: total=9, urgent=2
