@@ -671,10 +671,13 @@ def run_simulation(num_patients: int, seed: int, output_dir: str, open_chart: bo
 
 
 def parse_args() -> argparse.Namespace:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_output_dir = os.path.join(script_dir, "output")
+
     parser = argparse.ArgumentParser(description="Emergency-room queue simulation")
     parser.add_argument("--patients", type=int, default=80, help="number of patients to generate")
     parser.add_argument("--seed", type=int, default=42, help="random seed for repeatable simulation")
-    parser.add_argument("--output-dir", default="output", help="folder for output files")
+    parser.add_argument("--output-dir", default=default_output_dir, help="folder for output files")
     parser.add_argument("--open-chart", action="store_true", help="open main HTML chart after running")
     return parser.parse_args()
 
